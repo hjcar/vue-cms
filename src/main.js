@@ -12,15 +12,18 @@ Vue.use(MintUI)
 
 //MUI样式
 import'../src/lib/mui/css/mui.css'
-
+import'../src/lib/mui/css/icons-extra.css'
 //导入路由
 import VueRouter from 'vue-router'
 //安装路由
 Vue.use(VueRouter);  
-
+//导入vue-resource
+import VueResource from 'vue-resource'
+//安装vue-resource
+Vue.use(VueResource); 
 
 //路由
-// import router from '../src/router.js'
+import router from '../src/router.js'
 
 const vm = new Vue({
 	el:'#app',
@@ -30,7 +33,7 @@ const vm = new Vue({
 	methods:{
 
 	},
-	render: c =>c(app) //渲染app组件
+	render: c =>c(app), //渲染app组件
 
-	// router
+	router
 })

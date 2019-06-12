@@ -9,7 +9,7 @@
 		</mt-swipe>
 		<!-- 九宫格 -->
 		<ul class="mui-table-view mui-grid-view mui-grid-9">
-		            <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3"><a href="#">
+		            <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3"><a href="#/home/newlist">
 		                    <img src="../../image/menu1.png" alt="">
 		                    <div class="mui-media-body">新闻咨询</div></a></li>
 		            <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3"><a href="#">
@@ -48,8 +48,8 @@
 		},
 		methods:{
 			getlunbp(){
-				this.$http.jsonp('http://148.70.86.254:8080/static/api/api_data.php?img_page=1&img_id=35').then(result=>{
-					console.log(result);
+				this.$http.get('http://localhost:3001/').then(result=>{
+					this.lunboList=result.body
 				}).catch(err=>{
 					Toast('加载数据失败') 
 				})

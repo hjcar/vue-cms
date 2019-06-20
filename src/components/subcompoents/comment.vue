@@ -1,12 +1,14 @@
+<!-- 公共的评论组件 -->
 <template>
+
 		<div id="comment">
 			<h5>发表评论</h5>
 		</hr>
-		<textarea name="" placeholder="请输入评论长度(最多120字)" maxlength="120">
+		<textarea name="" placeholder="请输入评论长度(最多120字)" maxlength="120"  v-model="msg" >
 			
 		</textarea>
-		<mt-button type="primary" size="large" >发表评论</mt-button>
-		<div class="cmt-list">
+		<mt-button type="primary" size="large" @click="postMsg">发表评论</mt-button>
+		<div class="cmt-list" >
 			<div class="cmt-item" v-for="(item,i) in comments" :key="item.id">
 				<div class="cmt-title">
 				第{{i+1}}楼	{{item.title}}
@@ -23,11 +25,13 @@
 </template>
 
 <script>
+	import {Toast} from 'mint-ui'
 	export default {
 		data:function(){
 			return{
 				pageIndex:1, //页码默认为1
-				comments:[]  //所有的评论数据
+				comments:[],  //所有的评论数据
+				msg:''    //评论内容
 			}
 		},
 		created(){
@@ -62,18 +66,35 @@
 				// getComment();
 				//模拟加载更多
 				this.comments=this.comments.concat([
-		{id:'111',title:'用户:匿名用户 发表时间：2000-10-10 10：20：10',content:'锄禾日荡母'},
-		{id:'112',title:'用户:匿名用户 发表时间：2000-10-10 10：20：10',content:'锄禾日荡母'},
-		{id:'116',title:'用户:匿名用户 发表时间：2000-10-10 10：20：10',content:'锄禾日荡母'},
-		{id:'133',title:'123',content:''},
-		{id:'12',title:'123',content:'锄禾日荡母'},
-		{id:'13',title:'123',content:'锄禾日荡母'},
-		{id:'14',title:'123',content:'锄禾日荡母'},
-		{id:'15',title:'123',content:'锄禾日荡母'},
-		{id:'16',title:'123',content:'锄禾日荡母'},
-		{id:'101',title:'123',content:'锄禾日荡母'}
+					{id:'111',title:'用户:匿名用户 发表时间：2000-10-10 10：20：10',content:'锄禾日荡母'},
+					{id:'112',title:'用户:匿名用户 发表时间：2000-10-10 10：20：10',content:'锄禾日荡母'},
+					{id:'116',title:'用户:匿名用户 发表时间：2000-10-10 10：20：10',content:'锄禾日荡母'},
+					{id:'133',title:'123',content:''},
+					{id:'12',title:'123',content:'锄禾日荡母'},
+					{id:'13',title:'123',content:'锄禾日荡母'},
+					{id:'14',title:'123',content:'锄禾日荡母'},
+					{id:'15',title:'123',content:'锄禾日荡母'},
+					{id:'16',title:'123',content:'锄禾日荡母'},
+					{id:'101',title:'123',content:'锄禾日荡母'}
+					])	
+			},
+			postMsg(){
+				if(this.msg.trim()==''){//没有输入内容
+					return Toast("内容不能为空！")
+				}
+				var cmt={id:'999',title:'用户:匿名用户 发表时间：2000-10-10 10：20：10',content:this.msg}
+				this.comments.unshift(cmt);//添加到数组第一位
 
-		]	)
+				//地址 api/postcomment/:artid 
+				//描述 给某条新闻评论的id
+				//传入的参数 artid: 咨询的artid content 评论的内容
+				this.$http.post('api/postcomment/:artid'+this.artid,{content:this.msg.trim()})
+				.then(function(){
+					//成功了
+
+				}).catch(function(){
+
+				})
 			}
 		},
 		props:['artid']
